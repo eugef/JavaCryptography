@@ -38,7 +38,6 @@ import static java.lang.Math.ceil;
  * append it as binary data, that is, as 32 unencoded bytes (which is 256 bits). If the file size is not a multiple of
  * 1KB then the very last block will be shorter than 1KB, but all other blocks will be exactly 1KB.
  */
-
 public class Lesson03 {
     final protected static char[] hexArray = {'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
 
