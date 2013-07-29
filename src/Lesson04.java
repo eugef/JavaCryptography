@@ -49,6 +49,7 @@ public class Lesson04 {
         String d = "";
 
         for (int block = 0; block < (c.length - BLOCK_SIZE) / BLOCK_SIZE; block++) {
+            // copy current block and all previous
             byte[] cb = Arrays.copyOfRange(c, 0, c.length - block * BLOCK_SIZE);
 
             for (int i = 0; i < BLOCK_SIZE; i++) {
