@@ -93,7 +93,7 @@ public class Lesson05 {
                     h.multiply(g.modPow(BigInteger.valueOf(x1), p).modInverse(p)).mod(p)
             );
             if (x0 != null) {
-                System.out.println("x0 " + x0);
+                System.out.println("x0 = " + x0 + ", x1 = " + x1);
                 x = (long) x0 * B + x1;
                 break;
             }
