@@ -39,6 +39,11 @@ import static java.lang.Math.pow;
  *     2878928001494706097394108577585732452307673444020333
  * <p/>
  * Each of these three numbers is about 153 digits. Find x such that h = g^x in Zp.
+ * <p/>
+ * NOTICE!
+ * <p/>
+ * Hash table will contains all possible values of right hand side (g^B)^x0, because it is faster to calculate than left
+ * side. g^B can be calculated once before loop.
  */
 public class Lesson05 {
 
@@ -59,35 +64,47 @@ public class Lesson05 {
         );
 
         int B = (int) pow(2, 20);
+        // calculate g^B that is used in x0 computation
+        BigInteger gB = g.modPow(BigInteger.valueOf(B), p);
 
         long x = 0;
 
         Hashtable hg = new Hashtable();
 
-        System.out.println("Calculating h / g ^ x1 ...");
-        for (int x1 = 0; x1 <= B; x1++) {
-            // h / g^x1 = h * (g^x1)^-1
-            hg.put(
-                    h.multiply(g.modPow(BigInteger.valueOf(x1), p).modInverse(p)).mod(p),
-                    x1
-            );
-            System.out.printf("x1: %d | %.2f%% %n", x1, ((double) x1 / B) * 100);
-        }
+        long startTime = System.nanoTime();
 
         System.out.println("Calculating (g ^ B) ^ x0 ...");
-        BigInteger gB = g.modPow(BigInteger.valueOf(B), p);
+
         for (int x0 = 0; x0 <= B; x0++) {
-            System.out.printf("x0: %d | %.2f%% %n", x0, ((double) x0 / B) * 100);
-            Integer x1 = (Integer) hg.get(
-                    gB.modPow(BigInteger.valueOf(x0), p)
+            hg.put(
+                    gB.modPow(BigInteger.valueOf(x0), p),
+                    x0
             );
-            if (x1 != null) {
-                System.out.println("x1 " + x1);
+            System.out.printf("x0: %d | %.2f%% %n", x0, ((double) x0 / B) * 100);
+        }
+
+        System.out.println("Calculating h / g ^ x1 ...");
+
+        for (int x1 = B; x1 >= 0; x1--) {
+            System.out.printf("x1: %d | %.2f%% %n", x1, ((double) x1 / B) * 100);
+            // h / g^x1 = h * (g^x1)^-1
+            Integer x0 = (Integer) hg.get(
+                    h.multiply(g.modPow(BigInteger.valueOf(x1), p).modInverse(p)).mod(p)
+            );
+            if (x0 != null) {
+                System.out.println("x0 " + x0);
                 x = (long) x0 * B + x1;
                 break;
             }
         }
 
         System.out.println("x = " + x);
+
+        long stopTime = System.nanoTime();
+        System.out.println("time: " + (stopTime - startTime));
     }
 }
+
+// 347344001694  x1++ x0++
+// 355574100025  x0++ x1++
+//  86280514083  x0++ x1--
