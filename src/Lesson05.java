@@ -85,6 +85,7 @@ public class Lesson05 {
 
         System.out.println("Calculating h / g ^ x1 ...");
 
+        // Trick - we know that x1 is located closer to B
         for (int x1 = B; x1 >= 0; x1--) {
             System.out.printf("x1: %d | %.2f%% %n", x1, ((double) x1 / B) * 100);
             // h / g^x1 = h * (g^x1)^-1
@@ -104,7 +105,3 @@ public class Lesson05 {
         System.out.println("time: " + (stopTime - startTime));
     }
 }
-
-// 347344001694  x1++ x0++
-// 355574100025  x0++ x1++
-//  86280514083  x0++ x1--
