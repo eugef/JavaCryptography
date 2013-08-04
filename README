@@ -1,4 +1,5 @@
 Following programming assignments are included:
 
 - Lesson03 - calculating SHA256 hash for big video file.
-- Lesson04 - perform padding oracle attack on CBC AES with random IV
+- Lesson04 - perform padding oracle attack on CBC AES with random IV.
+- Lesson05 - computing discrete log modulo a very big prime p.
